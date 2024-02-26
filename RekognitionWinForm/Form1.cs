@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Image = System.Drawing.Image;
 
 namespace RekognitionWinForm
 {
@@ -38,35 +37,6 @@ namespace RekognitionWinForm
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
             materialSkinManager.ColorScheme = lightColorScheme;
 
-        }
-
-
-        private async Task button1_Click(object sender, EventArgs e)
-        {
-
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "images files (*.jpg)|*.jpg";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    filePath = openFileDialog.FileName;
-                    await Upload(filePath);
-
-
-                }
-            }
-            pictureBox1 = new PictureBox();
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; 
-            pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
-            panel1.Controls.Add(pictureBox1);
         }
 
         private async Task Upload(string str)
@@ -184,8 +154,9 @@ namespace RekognitionWinForm
 
                 }
             }
+            panel1.Controls.Remove(pictureBox1);
             pictureBox1 = new PictureBox();
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; 
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
             panel1.Controls.Add(pictureBox1);
