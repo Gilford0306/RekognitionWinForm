@@ -63,7 +63,7 @@ namespace RekognitionWinForm
                 }
             }
             pictureBox1 = new PictureBox();
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; // Устанавливаем режим автоматического размера
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; 
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
             panel1.Controls.Add(pictureBox1);
@@ -130,7 +130,7 @@ namespace RekognitionWinForm
 
                 using (Graphics g = Graphics.FromImage(bmp))
                 using (Pen pen = new Pen(Color.Red, 2))
-                using (Pen pen2 = new Pen(Color.Green, 2)) // Use a red pen with thickness 2
+                using (Pen pen2 = new Pen(Color.Green, 2)) 
                 {
                     foreach (TextDetection text in textDetections)
 
@@ -185,12 +185,10 @@ namespace RekognitionWinForm
                 }
             }
             pictureBox1 = new PictureBox();
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; // Устанавливаем режим автоматического размера
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; 
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
             panel1.Controls.Add(pictureBox1);
-            //pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
-            //pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
         }
 
         private void materialFlatButton2_Click(object sender, EventArgs e)
