@@ -10,13 +10,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Image = System.Drawing.Image;
 
 namespace RekognitionWinForm
 {
     public partial class Form1 : MaterialForm
     {
-       public List<TextDetection> textDetections = new List<TextDetection>();
+        public List<TextDetection> textDetections = new List<TextDetection>();
         string filePath = string.Empty;
+        private PictureBox pictureBox1;
         public Form1()
         {
             InitializeComponent();
@@ -52,8 +54,11 @@ namespace RekognitionWinForm
 
                 }
             }
+            pictureBox1 = new PictureBox();
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; // Устанавливаем режим автоматического размера
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
+            panel1.Controls.Add(pictureBox1);
         }
 
         private async Task Upload(string str)
@@ -171,12 +176,22 @@ namespace RekognitionWinForm
 
                 }
             }
+            pictureBox1 = new PictureBox();
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize; // Устанавливаем режим автоматического размера
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
+            panel1.Controls.Add(pictureBox1);
+            //pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
+            //pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
         }
 
         private void materialFlatButton2_Click(object sender, EventArgs e)
         {
+            if (filePath == string.Empty)
+            {
+
+                return;
+            }
             string str = textBox1.Text.ToLower();
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             Bitmap bmp = new Bitmap(pictureBox1.Image);
@@ -204,5 +219,7 @@ namespace RekognitionWinForm
             }
             pictureBox1.Image = bmp;
         }
-    } 
+
+
+    }
 }
