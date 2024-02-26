@@ -2,33 +2,36 @@
 using Amazon.Rekognition.Model;
 using Amazon.Runtime;
 using Amazon.S3;
-using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RekognitionWinForm
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MaterialForm
     {
-       public List<BoundingBox> values = new List<BoundingBox>();
        public List<TextDetection> textDetections = new List<TextDetection>();
+        string filePath = string.Empty;
         public Form1()
         {
             InitializeComponent();
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(
+                Primary.DeepPurple800, Primary.DeepPurple900,
+                Primary.DeepPurple500, Accent.DeepPurple400,
+                TextShade.WHITE
+            );
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async Task button1_Click(object sender, EventArgs e)
         {
 
             var fileContent = string.Empty;
@@ -37,28 +40,26 @@ namespace RekognitionWinForm
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "images files (*.png)|*.png";
+                openFileDialog.Filter = "images files (*.jpg)|*.jpg";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //Get the path of specified file
                     filePath = openFileDialog.FileName;
-                    Upload(filePath);
+                    await Upload(filePath);
 
 
                 }
             }
             pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
-            //MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
         }
 
-        private void Upload(string str)
+        private async Task Upload(string str)
         {
             string bucketName = "pavelbucket0307";
-            string keyName = "neon.png";
+            string keyName = "neon.jpg";
             string filePath = str;
 
             // Set up your AWS credentials
@@ -73,7 +74,7 @@ namespace RekognitionWinForm
                 TransferUtility fileTransferUtility = new TransferUtility(s3Client);
                 fileTransferUtility.Upload(filePath, bucketName, keyName);
                 Console.WriteLine("Upload completed!");
-                Rekognition();
+                await Rekognition();
             }
             catch (AmazonS3Exception e)
             {
@@ -89,7 +90,7 @@ namespace RekognitionWinForm
         private async Task Rekognition()
         {
 
-            String photo = "neon.png";
+            String photo = "neon.jpg";
             String bucket = "pavelbucket0307";
 
             BasicAWSCredentials credentials = new BasicAWSCredentials("AKIA6ODU52MBLXV33VPH", "rAOOh5sDYlhfKXXHV9WVECCyuPN7z7io2wgIPbN3");
@@ -109,15 +110,6 @@ namespace RekognitionWinForm
 
             try
             {
-                //DetectTextResponse detectTextResponse = await rekognitionClient.DetectTextAsync(detectTextRequest);
-                //Console.WriteLine("Detected lines and words for " + photo);
-
-                //foreach (TextDetection text in detectTextResponse.TextDetections)
-                //{
-
-                //    values.Add(text.Geometry.BoundingBox);
-
-                //}
 
                 DetectTextResponse detectTextResponse = await rekognitionClient.DetectTextAsync(detectTextRequest);
                 textDetections = detectTextResponse.TextDetections;
@@ -140,12 +132,6 @@ namespace RekognitionWinForm
 
                         Rectangle rect = new Rectangle(left, top, width, height);
 
-                        //if (text.Type == "LINE")
-                        //g.DrawRectangle(pen, rect);
-                        //else
-                        //g.DrawRectangle(pen2, rect);
-
-
 
                     }
                 }
@@ -162,24 +148,40 @@ namespace RekognitionWinForm
 
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+
+
+        private void materialFlatButton1_Click(object sender, EventArgs e)
         {
 
+            var fileContent = string.Empty;
+            filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "images files (*.jpg)|*.jpg";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName;
+                    Upload(filePath);
+
+
+                }
+            }
+            pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void materialFlatButton2_Click(object sender, EventArgs e)
         {
             string str = textBox1.Text.ToLower();
-
+            pictureBox1.Image = System.Drawing.Image.FromFile(filePath);
             Bitmap bmp = new Bitmap(pictureBox1.Image);
             using (Graphics g = Graphics.FromImage(bmp))
-            using (Pen pen2 = new Pen(Color.Green, 2)) 
+            using (Pen pen2 = new Pen(Color.Red, 2))
             {
                 foreach (TextDetection text in textDetections)
 
@@ -195,16 +197,12 @@ namespace RekognitionWinForm
                     Rectangle rect = new Rectangle(left, top, width, height);
 
 
-                    if (text.DetectedText.ToLower() == str)
+                    if (text.DetectedText.ToLower().Contains(str))
                         g.DrawRectangle(pen2, rect);
-                    
-
-
 
                 }
             }
             pictureBox1.Image = bmp;
-
         }
     } 
 }
