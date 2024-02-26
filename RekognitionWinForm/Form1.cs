@@ -19,19 +19,27 @@ namespace RekognitionWinForm
         public List<TextDetection> textDetections = new List<TextDetection>();
         string filePath = string.Empty;
         private PictureBox pictureBox1;
+        ColorScheme lightColorScheme = new ColorScheme(
+    Primary.BlueGrey800, Primary.BlueGrey900,
+    Primary.BlueGrey500, Accent.LightBlue200,
+    TextShade.WHITE
+);
+
+        ColorScheme darkColorScheme = new ColorScheme(
+            Primary.DeepPurple800, Primary.DeepPurple900,
+            Primary.DeepPurple500, Accent.DeepPurple400,
+            TextShade.WHITE
+        );
         public Form1()
         {
             InitializeComponent();
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-            materialSkinManager.ColorScheme = new ColorScheme(
-                Primary.DeepPurple800, Primary.DeepPurple900,
-                Primary.DeepPurple500, Accent.DeepPurple400,
-                TextShade.WHITE
-            );
+            materialSkinManager.ColorScheme = lightColorScheme;
 
         }
+
 
         private async Task button1_Click(object sender, EventArgs e)
         {
@@ -220,6 +228,19 @@ namespace RekognitionWinForm
             pictureBox1.Image = bmp;
         }
 
-
+        private void materialCheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            var materialSkinManager = MaterialSkinManager.Instance;
+            if (materialSkinManager.Theme == MaterialSkinManager.Themes.LIGHT)
+            {
+                materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
+                materialSkinManager.ColorScheme = darkColorScheme;
+            }
+            else
+            {
+                materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+                materialSkinManager.ColorScheme = lightColorScheme;
+            }
+        }
     }
 }

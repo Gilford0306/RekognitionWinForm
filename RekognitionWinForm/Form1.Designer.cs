@@ -33,6 +33,7 @@
             this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton2 = new MaterialSkin.Controls.MaterialFlatButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.materialCheckBox1 = new MaterialSkin.Controls.MaterialCheckBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -85,11 +86,29 @@
             this.panel1.Size = new System.Drawing.Size(729, 405);
             this.panel1.TabIndex = 6;
             // 
+            // materialCheckBox1
+            // 
+            this.materialCheckBox1.AutoSize = true;
+            this.materialCheckBox1.Depth = 0;
+            this.materialCheckBox1.Font = new System.Drawing.Font("Roboto", 10F);
+            this.materialCheckBox1.Location = new System.Drawing.Point(950, 651);
+            this.materialCheckBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBox1.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBox1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBox1.Name = "materialCheckBox1";
+            this.materialCheckBox1.Ripple = true;
+            this.materialCheckBox1.Size = new System.Drawing.Size(105, 30);
+            this.materialCheckBox1.TabIndex = 8;
+            this.materialCheckBox1.Text = "Night theme";
+            this.materialCheckBox1.UseVisualStyleBackColor = true;
+            this.materialCheckBox1.CheckedChanged += new System.EventHandler(this.materialCheckBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 690);
+            this.Controls.Add(this.materialCheckBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.materialFlatButton2);
             this.Controls.Add(this.materialFlatButton1);
@@ -107,6 +126,7 @@
         private MaterialSkin.Controls.MaterialFlatButton materialFlatButton1;
         private MaterialSkin.Controls.MaterialFlatButton materialFlatButton2;
         private System.Windows.Forms.Panel panel1;
+        private MaterialSkin.Controls.MaterialCheckBox materialCheckBox1;
     }
 }
 
